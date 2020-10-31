@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Actividad 9</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.5.3/css/bootstrap.min.css}"/>
+</head>
+
+<body>
+    <div>
+        <h1>Acceso a datos</h1>
+    </div>
+    <!-- 
+    <table>
+    <tr th:each="instance : ${provinciasCleaned}">
+	    <td th:text="${instance.key}"></td> 
+	    <td th:each="idema : ${instance.value}" th:text="${idema.key}" th:id="${idema.value}"></td>
+    </tr>
+    </table>
+     -->
+    <div class="card mx-auto" style="width: 80%">
+	    <div class="card-header">	   
+		    <h2 class="card-title">Tema 1 | Actividad 9</h2>	    
+		    <h6 class="card-subtitle mb-2 text-muted">AEMET</h6>
+		</div>
+		  <div class="card-body">
+		    <p class="card-text">Un programa que realice una petición HTTP GET para consumir el archivo JSON
+			correspondiente a los datos de los valores climatológicos diarios de tu provincia y de la semana
+			anterior a la que te encuentras</p>
+			 <p class="card-text">El programa deberá de dar como resultado la temperatura media de la semana en cuestión, y el
+	día (fecha completa) con mayor nº de horas de sol.</p>
+			<div class="row">
+			
+			<!--  Card Provincia -->
+			  <div class="col-sm-5">
+			    <div class="card">
+			    	<div class="card-header">	   
+					   <h4 class="card-title" th:text="${choosenProv}"></h4>
+					 </div>
+					 <div class="card-footer">
+					 	<!--  Dropdown Provincia -->
+						 <div class="dropdown">
+						  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    --
+						  </button>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						  <!-- WTF see th:href -->
+						    <a th:each="instance : ${provinciasCleaned}" class="dropdown-item" th:text="${instance.key}" th:href="@{/provincia/{instance.key} (instance.key=${instance.key})}"></a>
+						  </div>
+						</div>
+					</div>
+			    </div>
+			  </div>
+			  <div class="col-sm-5">
+			    <div class="card">
+			      <div class="card-header">	   
+				    <h4 class="card-title" th:text="${choosenIdema}"></h4>
+				  </div>
+				  <div class="card-footer">
+				    <div class="dropdown">
+						  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    --
+						  </button>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						  <!-- WTF see th:href -->
+						    <a th:each="instance : ${provinciasCleaned.get(choosenProv)}" class="dropdown-item" th:text="${instance.key}" th:href="@{/idema/{idema} (idema=${instance.key})}"></a>
+						  </div>
+						</div>
+				  </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-2  vertical-bottom">
+				<a th:href="@{/show}" class="btn btn-warning">Go somewhere</a>
+			  </div>
+		  </div>
+		</div>
+	</div>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
+</body>
+</html>
