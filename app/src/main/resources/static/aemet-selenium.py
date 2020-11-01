@@ -1,8 +1,3 @@
-'''
-I didn't found a list ordering IDEMAS by province so, i did scrap it and save it as a .json
-that Spring boot reads on new session (thx Gson), it's ugly but it had just one use so no worries.
-'''
-
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys

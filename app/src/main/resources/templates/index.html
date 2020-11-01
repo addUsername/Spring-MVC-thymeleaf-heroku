@@ -5,20 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Actividad 9</title>
     <link rel="stylesheet" th:href="@{webjars/bootstrap/4.5.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{css/AndreasLundgren.css}"/>
+    
+    
+    <script type="text/javascript" src="canvasjs.min.js"></script>
 </head>
 
 <body>
-    <div>
         <h1>Acceso a datos</h1>
-    </div>
-    <!-- 
-    <table>
-    <tr th:each="instance : ${provinciasCleaned}">
-	    <td th:text="${instance.key}"></td> 
-	    <td th:each="idema : ${instance.value}" th:text="${idema.key}" th:id="${idema.value}"></td>
-    </tr>
-    </table>
-     -->
+    
     <div class="card mx-auto" style="width: 80%">
 	    <div class="card-header">	   
 		    <h2 class="card-title">Tema 1 | Actividad 9</h2>	    
@@ -30,54 +25,107 @@
 			anterior a la que te encuentras</p>
 			 <p class="card-text">El programa deberá de dar como resultado la temperatura media de la semana en cuestión, y el
 	día (fecha completa) con mayor nº de horas de sol.</p>
-			<div class="row">
-			
+			<!-- Input row -->
+			<div class="row">			
 			<!--  Card Provincia -->
 			  <div class="col-sm-5">
 			    <div class="card">
-			    	<div class="card-header">	   
-					   <h4 class="card-title" th:text="${choosenProv}"></h4>
-					 </div>
-					 <div class="card-footer">
-					 	<!--  Dropdown Provincia -->
-						 <div class="dropdown">
-						  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    --
-						  </button>
-						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						  <!-- WTF see th:href -->
-						    <a th:each="instance : ${provinciasCleaned}" class="dropdown-item" th:text="${instance.key}" th:href="@{/provincia/{instance.key} (instance.key=${instance.key})}"></a>
+			    	<div class="card-header">
+				    	<div class="row">
+				    	  <div class="col-sm">   
+						   	<h4 class="card-title" th:text="${choosenProv}"></h4>
+						  </div>
+						  <div class="col-sm-2">
+						  		<div class="dropdown">
+							  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    --
+							  </button>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">							  
+							    <a th:each="instance : ${provinciasCleaned}" class="dropdown-item" th:text="${instance.key}" th:href="@{/provincia/{instance.key} (instance.key=${instance.key})}"></a>
+							  </div>
+							</div>
 						  </div>
 						</div>
 					</div>
 			    </div>
 			  </div>
+			  <!--  Card Idema -->
 			  <div class="col-sm-5">
-			    <div class="card">
-			      <div class="card-header">	   
-				    <h4 class="card-title" th:text="${choosenIdema}"></h4>
-				  </div>
-				  <div class="card-footer">
-				    <div class="dropdown">
-						  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    --
-						  </button>
-						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						  <!-- WTF see th:href -->
-						    <a th:each="instance : ${provinciasCleaned.get(choosenProv)}" class="dropdown-item" th:text="${instance.key}" th:href="@{/idema/{idema} (idema=${instance.key})}"></a>
+			  	<div class="card">
+					    <div class="card-header">
+					    <div class="row">
+					      <div class="col-sm">	   
+						    <h4 class="card-title" th:text="${choosenIdema}"></h4>
 						  </div>
-						</div>
-				  </div>
-			    </div>
+						  <div class="col-sm-2">
+						    <div class="dropdown">
+								  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    --
+								  </button>
+								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								  <!-- WTF see th:href -->
+								    <a th:each="instance : ${provinciasCleaned.get(choosenProv)}" class="dropdown-item" th:text="${instance.key}" th:href="@{/idema/{idema} (idema=${instance.key})}"></a>
+								  </div>
+								</div>
+						  </div>
+					    </div>
+					    </div>
+				    </div>
 			  </div>
-			  <div class="col-sm-2  vertical-bottom">
-				<a th:href="@{/show}" class="btn btn-warning">Go somewhere</a>
+			  <div class="col-sm-2">
+				<a th:href="@{/show}" class="btn btn-warning"><span class="loading">
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				</span></a>
 			  </div>
 		  </div>
+		  <!-- Chart row -->
+		  <div class="row" id="charts">
+			  <div class="col-sm-6">
+			  <div class="card">
+			  	<div class="card-header">
+			  		<h6 class="card-subtitle text-muted">Historico del dia</h6>
+			  	</div>
+			  	<div class="card-body">
+			  		<div th:if="${!loadCharts}">
+			  			<img src="http://via.placeholder.com/700x370.png/c1d0e8/050505?text=Cool+chart+is+gonna+be+printed+here" />
+			  		</div>
+			  		<div th:if="${loadCharts}" id="chartContainer" style="height: 370px; width: 100%;"></div>
+			  	</div>
+			  </div>
+			  </div>
+			  <div class="col-sm-6">
+			  <div class="card">
+			  	<div class="card-header">
+			  		<h6 class="card-subtitle text-muted">Historico ult. Semana</h6>
+			  	</div>
+			  	<div class="card-body">
+			  		<div th:if="${!loadCharts}">
+			  			<img src="http://via.placeholder.com/700x370.png/c1d0e8/050505?text=Cool+chart+is+gonna+be+printed+here" />
+			  		</div>
+			  		<div th:if="${loadCharts}" id="weeklyChartContainer" style="height: 370px; width: 100%;"></div>
+			  	</div>
+			  </div>
+			  </div>
+		  </div>
+		  
 		</div>
 	</div>
+	<!-- Aqui esta un poco chungi, como queremos pasar variables a weekChart.js tenemos que hacer asi.. -->
+	<script th:inline="javascript">
+				/*<![CDATA[*/				
+				    var weekChart = /*[[${weekChart}]]*/ 'default';
+				    var realWeekChart = /*[[${realWeekChart}]]*/ 'default';
+				
+				/*]]>*/
+	</script>
+	<!-- <script type="text/javascript">alert(message)</script> -->		  			  			
+	<script type="text/javascript" th:src="@{js/weekChart.js}"></script>
     <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 	<script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>
