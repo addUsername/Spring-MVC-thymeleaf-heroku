@@ -1,9 +1,9 @@
 # Spring-MVC-thymeleaf-heroku
 ## TL;DR
-No Vue, good luck.
+Simple app, No Vue, good luck.
 
 ## About
-The main requirement was implementing the ``view/front layer`` in Spring, meaning that each **app state** will be managed in server side, the use of ``@Controller`` and ``Model`` instead ``@RestController`` and **DOM** generated thx to Thymeleaf.
+The main requirement was implementing the ``view/front layer`` in Spring, meaning that each **app state** ``Model`` will be managed in server side, the use of ``@Controller`` instead ``@RestController`` and **DOM** generated thx to Thymeleaf.
 
 |  | | 
 | ------------- | ------------- | 
