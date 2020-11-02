@@ -3,7 +3,7 @@
 Simple app, No Vue, good luck.
 
 ## About
-The main requirement was implementing the ``view/front layer`` in Spring, meaning that each **app state** ``Model`` will be managed in server side, the use of ``@Controller`` instead ``@RestController`` and **DOM** generated thx to Thymeleaf.
+The main requirement was implementing the ``view/front layer`` in Spring, meaning that each **user state** ``Model`` & ``Session`` will be managed on server side, the use of ``@Controller`` instead ``@RestController`` and **DOM** generated thx to Thymeleaf.
 
 |  | | 
 | ------------- | ------------- | 
@@ -12,3 +12,18 @@ The main requirement was implementing the ``view/front layer`` in Spring, meanin
 | <img width="35%" src="https://avatars0.githubusercontent.com/u/1525981?s=200&v=4"> |  <img width="50" src="https://avatars0.githubusercontent.com/u/983927?s=200&v=4" />  |
 |  **CSS** | [<img width="50" src="https://avatars1.githubusercontent.com/u/2918581?s=200&v=4">](https://github.com/twbs) |
 |  |  |
+
+### Key concepts about deploying heroku
+
+- [read this](https://www.callicoder.com/deploy-host-spring-boot-apps-on-heroku/).
+- [read this too](https://devcenter.heroku.com/articles/deploying-java#verify-that-your-pom-xml-file-is-set-up-correctly)
+- Build jar.
+  - Write [Procfile](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/Procfile) .
+  - Write [system.propeties](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/system.properties) .
+  - Look for potentials errors ../main/resources/application.propeties and in pom.xml
+  - ``mvn clean build``.
+  - Run .jar locally `` java -jar myJar.jar ``
+- Deploy .jar file (no git)
+  - by installing ``heroku plugins:install heroku-cli-deploy``.
+  - create app ``heroku create myApp --no-remote`` .
+  - deploy ``heroku deploy:jar myJar.jar --app myApp``.
