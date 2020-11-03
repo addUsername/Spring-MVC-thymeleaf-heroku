@@ -1,6 +1,6 @@
 # Spring-MVC-thymeleaf-heroku
 
-**[Demo](https://ad09.herokuapp.com/)**, Heroku turns off the app after 30 min of inactivity.. so, that link works and you just has to wait for about 20sg bc it is getting ready.
+**[Demo](https://ad09.herokuapp.com/)**, Heroku turns off the app after 30 min of inactivity.. so, that link works and you just have to wait for about 20sg bc it is getting ready.
 
 ## TL;DR
 Simple app, No Vue, good luck.
