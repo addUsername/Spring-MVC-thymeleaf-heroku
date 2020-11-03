@@ -1,6 +1,6 @@
 # Spring-MVC-thymeleaf-heroku
 
-**[Demo](https://ad09.herokuapp.com/)**, maybe it's up and running.
+**[Demo](https://ad09.herokuapp.com/)**, Heroku turns off the app after 30 min of inactivity.. so, that link works and you just has to wait for about 20sg bc it is getting ready.
 
 ## TL;DR
 Simple app, No Vue, good luck.
@@ -27,9 +27,10 @@ The main requirement was implementing the ``view/front layer`` in Spring, meanin
   - Write [Procfile](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/Procfile) .
   - Write [system.propeties](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/system.properties) .
   - Look for potentials errors ../main/resources/application.propeties and in pom.xml
-  - ``mvn clean build``.
+  - ``mvn clean build``
   - Run .jar locally `` java -jar myJar.jar ``
 - Deploy .jar file (no git)
-  - by installing ``heroku plugins:install heroku-cli-deploy``.
-  - create app ``heroku create myApp --no-remote`` .
-  - deploy ``heroku deploy:jar myJar.jar --app myApp``.
+  - by installing ``heroku plugins:install heroku-cli-deploy``
+  - create app ``heroku create myApp --no-remote`` 
+  - deploy ``heroku deploy:jar myJar.jar --app myApp``
+  - profit
