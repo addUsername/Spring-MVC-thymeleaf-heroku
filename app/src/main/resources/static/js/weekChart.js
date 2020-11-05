@@ -97,92 +97,146 @@ window.onload = function () {
 	var medTempPoints = [];
 	var solPoints = [];
 	rainPoints = []; //OK
-
+	var chart2;
 	console.log(realWeekChart);
-
-	for(i=0; i<realWeekChart.length; i++){
+	
+	if(realWeekChart == null){
+		alert("Algunas idemas devuelven este json.. \n prueba con capitales. Ej: Madrid-Aeropuerto");
+		//Some idemas are not normalized.. if null this shows and img, amazing eh
+		var imgUrl = "https://i.ibb.co/R46yQ3R/Aemet-error.jpg";
+		var images = [];
+		var chart = new CanvasJS.Chart("weeklyChartContainer", {
+		  axisX:{
+		    gridThickness: 0,
+		    tickLength: 0,
+		    lineThickness: 0,
+		    labelFormatter: function(){
+		      return " ";
+		    }
+		  },
+		  axisY:{
+		    gridThickness: 0,
+		    tickLength: 0,
+		    lineThickness: 0,
+		    labelFormatter: function(){
+		      return " ";
+		    }
+		  },
+		  data: [{			
+					type: "scatter",
+					dataPoints: [
+		        { x: 0 ,y: 0 },
+					]
+				}]
+		});
 		
-		//Check out this "+" that parses to number (long maybe)
-		var date = new Date(realWeekChart[i].fecha);
-		date.setMonth(date.getMonth() + 1);
-		//idk why, maybe bc java.util.Date is deprecated but..
-		//Not neccesary date.setFullYear( date.getFullYear() - 1900 ); 
-		console.log(realWeekChart[i]);
-		solPoints.push({x: date, y:realWeekChart[i].sol});
-		rainPoints.push({x: date, y:realWeekChart[i].prec});
-		maxTempPoints.push({x: date, y:[realWeekChart[i].tmax,realWeekChart[i].tmin] });
-		console.log({y:[realWeekChart[i].tmax,realWeekChart[i].tmin] });
-	}
-
-	var chart2 = new CanvasJS.Chart("weeklyChartContainer", {
-		animationEnabled: true,
-		zoomEnabled: true,
-		theme: "light",
-		title: {
-			text: "Ult. semana"
-		},
-		axisX:[ {
-			valueFormatString: "DD DDDD"    
-		}],
-		axisY: [
+		chart.render();
+		addImages(chart);
+		positionImages();
+		
+		function addImages(chart){
+		    images.push(new Image(648,347));
+		    images[0].style.cssText = "position: absolute; pointer-events: none";    
+		    images[0].src = imgUrl;
+		    chart.container.appendChild(images[0]);
+		}
+		//Position image based on dataPoint x & y value
+		function positionImages() {
+		    images[0].style.top = chart.axisY[0].convertValueToPixel(chart.data[0].dataPoints[i].y) - (images[0].width / 2) + "px";
+		    images[0].style.left = chart.axisX[0].convertValueToPixel(chart.data[0].dataPoints[i].x) - (images[0].width / 2) + "px";
+		}				
+	}else{	
+		for(i=0; i<realWeekChart.length; i++){
+			
+			//Check out this "+" that parses to number (long maybe)
+			var date = new Date(realWeekChart[i].fecha);
+			date.setMonth(date.getMonth() + 1);
+			//idk why, maybe bc java.util.Date is deprecated but..
+			//Not neccesary date.setFullYear( date.getFullYear() - 1900 );
+			solPoints.push({x: date, y:realWeekChart[i].sol});
+			rainPoints.push({x: date, y:realWeekChart[i].prec});
+			maxTempPoints.push({x: date, y:[realWeekChart[i].tmax,realWeekChart[i].tmin] });
+			medTempPoints.push({x: date, y:realWeekChart[i].tmed});
+		}	
+			chart2 = new CanvasJS.Chart("weeklyChartContainer", {
+			animationEnabled: true,
+			zoomEnabled: true,
+			theme: "light",
+			title: {
+				text: "Ult. semana"
+			},
+			axisX:[ {
+				valueFormatString: "DD DDDD"    
+			}],
+			axisY: [
+				{
+					suffix: "ºC",
+					//title: "Temperatura",
+					titleFontColor: "red",
+					labelFontColor: "red"
+				},
+				{
+					suffix: "h",
+					//title: "sol",
+					titleFontColor: "orange",
+					labelFontColor: "orange"
+				},
+				{
+					//title: "Preciptaciones",
+					suffix: " l/m2",
+					titleFontColor: "blue",
+					labelFontColor: "blue"
+				}
+			],
+			toolTip: {
+				shared: true
+			},
+			legend: {
+				cursor: "pointer",
+				itemclick: toggleDataSeries
+			},
+			data: [
 			{
-				suffix: "ºC",
-				//title: "Temperatura",
-				titleFontColor: "red",
-				labelFontColor: "red"
+				type: "rangeColumn",
+				name: "Variación T",
+				showInLegend: true,
+				xValueFormatString: "DD-MM-YYYY",
+				yValueFormatString: "#.# ºC",
+				color:"red",
+				axisYIndex: 0, //defaults to 0
+				dataPoints: maxTempPoints
 			},
 			{
-				suffix: "h",
-				//title: "sol",
-				titleFontColor: "orange",
-				labelFontColor: "orange"
+				type: "line",
+				name: "T media",
+				showInLegend: true,
+				yValueFormatString: "#.# ºC",
+				color:"black",
+				axisYIndex: 0, //defaults to 0
+				dataPoints: medTempPoints
 			},
 			{
-				//title: "Preciptaciones",
-				suffix: " l/m2",
-				titleFontColor: "blue",
-				labelFontColor: "blue"
-			}
-		],
-		toolTip: {
-			shared: true
-		},
-		legend: {
-			cursor: "pointer",
-			itemclick: toggleDataSeries
-		},
-		data: [
-		{
-			type: "rangeColumn",
-			name: "Variación T",
-			showInLegend: true,
-			xValueFormatString: "DD-MM-YYYY",
-			yValueFormatString: "#.# ºC",
-			color:"red",
-			axisYIndex: 0, //defaults to 0
-			dataPoints: maxTempPoints
-		},
-		{
-			type: "line",
-			name: "Horas sol",
-			showInLegend: true,
-			yValueFormatString: "#.#",
-			axisYIndex: 1,
-			color: "orange",
-			dataPoints: solPoints
-		},
-		{
-			type: "area",
-			name: "Precipitaciones",
-			markerBorderColor: "white",
-			color:"lightblue",
-			markerBorderThickness: 2,
-			showInLegend: true,
-			yValueFormatString: "#.# l/m3",
-			axisYIndex: 2,
-			dataPoints: rainPoints
-		}]
-	});
+				type: "line",
+				name: "Horas sol",
+				showInLegend: true,
+				yValueFormatString: "#.#",
+				axisYIndex: 1,
+				color: "orange",
+				dataPoints: solPoints
+			},
+			{
+				type: "area",
+				name: "Precipitaciones",
+				markerBorderColor: "white",
+				color:"lightblue",
+				markerBorderThickness: 2,
+				showInLegend: true,
+				yValueFormatString: "#.# l/m3",
+				axisYIndex: 2,
+				dataPoints: rainPoints
+			}]
+		});
+	} //else
 	chart2.render();
 
 	function toggleDataSeries(e) {
@@ -193,5 +247,4 @@ window.onload = function () {
 		}
 		e.chart.render();
 	}
-
 };
