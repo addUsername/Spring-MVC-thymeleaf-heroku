@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -87,9 +88,11 @@ public class Controller {
 			session.setAttribute("weekChart",dataDay.get());
 			session.setAttribute("realWeekChart", dataWeek.get());
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		//some statics
+		System.out.println("-----------");
+		System.out.print(new Date());
 		System.out.println("[ show ] -- Looking for "+choosenProv+" "+choosenIdema);
 		System.out.println("[ show ] -- total count "+ visitCounter);
 		return "redirect:/";

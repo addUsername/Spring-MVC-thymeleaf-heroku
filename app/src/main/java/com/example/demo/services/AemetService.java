@@ -51,7 +51,6 @@ public class AemetService {
     	String end = String.format("%d-%02d-%02dT00:00:00UTC",fechaFin.getYear()+1900,fechaFin.getMonth(),fechaFin.getDate());
     	
     	this.url2 = (a[0]+ini+a[1]+end+a[2]+"/"+idema+"?api_key="+token);
-    	System.out.println(url2);
 	}
 
 	//THis is super cool and usefull, first it gets variables from application.propeties (w/o @Whatever)
@@ -92,8 +91,8 @@ public class AemetService {
             ctx.init(null, new TrustManager[]{tm}, null);
             SSLContext.setDefault(ctx);
         } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        	System.out.println("Exception in AemetService 68");
+        	}
     }
 
     @Async
@@ -135,7 +134,6 @@ public class AemetService {
     private AemetDTOWeek2[] getMoreData2(String url) {
     	Gson gson = new Gson();
         String resultado = restTemplate.getForObject(url, String.class);
-        System.out.println(resultado);
 		AemetDTOWeek[] responseRaw = gson.fromJson(resultado, AemetDTOWeek[].class);
 		AemetDTOWeek2 [] response = new AemetDTOWeek2[responseRaw.length];
 		for(int i = 0; i<response.length;i++) {
@@ -145,9 +143,7 @@ public class AemetService {
 	}
     private String getPostsPlainJSON(String url) {
     	Gson gson = new Gson();
-    	System.out.println(url);
-        String resultado = restTemplate.getForObject(url, String.class);	
-        System.out.println(resultado);
+        String resultado = restTemplate.getForObject(url, String.class);
 		AemetServiceDTO response = gson.fromJson(resultado, AemetServiceDTO.class);
 		return response.getDatos();
     }

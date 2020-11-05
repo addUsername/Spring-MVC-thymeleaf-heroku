@@ -48,11 +48,10 @@ public class Utils{
 		try {
 			InputStream is = new ClassPathResource("static/output.json").getInputStream();
 			content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-			System.out.println(content);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in Utils.readFile 46");
 		}
 	}
 	private void parseFile() {
@@ -62,7 +61,6 @@ public class Utils{
 		Map provinciasRaw = gson.fromJson(content, Map.class);
 		provinciasRaw.forEach((k, v) -> ((List) v).remove(0));
 		
-		System.out.println(provinciasRaw);
 		myMap = new TreeMap<String, String>(provinciasRaw);
 	}
 
