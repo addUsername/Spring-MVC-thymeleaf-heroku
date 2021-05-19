@@ -27,8 +27,10 @@ The main requirement was implementing the ``view/front layer`` in Spring, meanin
   - Write [Procfile](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/Procfile) .
   - Write [system.propeties](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/system.properties) .
   - Look for potentials errors ../main/resources/application.propeties and in pom.xml
-  - ``mvn clean build``
+  - ``mvn clean``
+  - ``mvn package``
   - Run .jar locally `` java -jar myJar.jar ``
+  - copy jar to root folder (or the same folder as  [Procfile](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/Procfile) and[system.propeties](https://github.com/addUsername/Spring-MVC-thymeleaf-heroku/blob/main/app/system.properties) .
 - Deploy .jar file (no git)
   - by installing ``heroku plugins:install heroku-cli-deploy``
   - create app ``heroku create myApp --no-remote`` 
